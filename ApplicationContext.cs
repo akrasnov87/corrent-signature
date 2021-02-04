@@ -11,7 +11,7 @@ namespace Signature
         public DbSet<Signature.Models.Signature> Signatures { get; set; }
 
         public DbSet<Signature.Models.Street> Streets { get; set; }
-        public DbSet<Signature.Models.House> HousesOrigins { get; set; }
+        public DbSet<Signature.Models.House> Houses { get; set; }
         public DbSet<Signature.Models.Appartament> Appartaments { get; set; }
 
         public ApplicationContext()

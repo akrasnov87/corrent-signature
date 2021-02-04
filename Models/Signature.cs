@@ -20,44 +20,15 @@ namespace Signature.Models
         /// УИК
         /// </summary>
         public int n_uik { get; set; }
-        /// <summary>
-        /// ID волантера
-        /// </summary>
-        public string c_user_num { get; set; }
-        /// <summary>
-        /// ФИО волонтера
-        /// </summary>
-        public string c_user_fio { get; set; }
         public string c_street { get; set; }
         public string c_house { get; set; }
         public int? n_appartament_start { get; set; }
         public int? n_appartament_end { get; set; }
         public string c_appartaments { get; set; }
         public string c_appartament { get; set; }
-        /// <summary>
-        /// Дата обхода
-        /// </summary>
-        public DateTime d_date { get; set; }
-        /// <summary>
-        /// Статус контакта
-        /// </summary>
-        public string c_status { get; set; }
-        /// <summary>
-        /// Возрастная категория респондента
-        /// </summary>
-        public int? n_age { get; set; }
-        /// <summary>
-        /// Количество подписей
-        /// </summary>
-        public int? n_signature { get; set; }
-        /// <summary>
-        /// Лояльность
-        /// </summary>
-        public string c_loyalty { get; set; }
-        /// <summary>
-        /// Явка
-        /// </summary>
-        public string c_come { get; set; }
-        public string c_notice { get; set; }
+        public Guid? f_appartament { get; set; }
+        public string c_street_local { get; set; }
+        public string c_street_type { get; set; }
+        public string c_street_short_type { get; set; }
     }
 }
