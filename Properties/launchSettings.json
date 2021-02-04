@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "vote-import-from-excel": {
+      "commandName": "Project",
+      "commandLineArgs": "\"import.csv\""
+    }
+  }
+}
