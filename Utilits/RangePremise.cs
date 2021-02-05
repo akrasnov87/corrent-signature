@@ -20,7 +20,7 @@ namespace Signature.Utilits
                 // проверяем что дом входит в допустимый диапазон
                 var appartaments = (from a in db.Appartaments
                                     join h in db.HouseByJkhs on a.f_jkh_house equals h.link
-                                    where a.f_signature == null && a.b_range != null
+                                    where a.f_signature == null && a.b_range == null
                                     orderby h.f_street, h.c_house_number, a.c_number
                                     select new { 
                                         f_appartament = a.id,
