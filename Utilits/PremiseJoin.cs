@@ -82,20 +82,14 @@ namespace Signature.Utilits
                                 db.SaveChanges();
 
                                 search++;
-                                Console.WriteLine("({4}/{5}/{6}/{7}/{8}/{9}) {0} {1}, д.{2}, кв.{3}",
-                                    item.c_short_type,
-                                    item.c_name,
-                                    string.IsNullOrEmpty(item.c_build_num) ? item.c_house_num : string.Format("{0}/{1}", item.c_house_num, item.c_build_num),
-                                    item.c_appartament,
-                                    innerStreets.Count,
-                                    innerHouses.Count,
-                                    innerAppartaments.Count,
-                                    (((decimal)idx * 100) / count).ToString("0.00") + "%",
-                                    idx,
-                                    search);
                             }
                         }
                     }
+
+                    Console.WriteLine("({0}/{1}/{2})",
+                        search,
+                        idx,
+                        count);
 
                     idx++;
                 }
