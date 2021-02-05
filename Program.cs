@@ -31,6 +31,9 @@ namespace Signature
                                    };
 
                 Console.WriteLine("Доступно {0} квартир которые нужно проверить", appartaments.Count());
+                int idx = 0;
+                int search = 0;
+                int count = appartaments.Count();
                 // дальше по каждей квартире нужно искать
                 // первое - проверим есть ли улица
                 foreach(var item in appartaments)
@@ -49,11 +52,32 @@ namespace Signature
 
                         var innerHouses = innerStreets.Where(t => houseVar.Contains(t.c_house)).ToList();
                         // тут если кол-во больше 0 дом найден.
-                        if(innerHouses.Count > 0)
+                        if (innerHouses.Count > 0)
                         {
+                            // улица найдена и в них находим требуемый дом
+                            string[] appartamentVar = GetAppartamentVar(item.c_house_num, item.c_appartament);
 
+                            var innerAppartaments = innerHouses.Where(t => GetAppartamentVar(t.c_house, t.c_appartament).Intersect(appartamentVar).Count() > 0).ToList();
+                            // тут если кол-во больше 0 квартира найден.
+                            if (innerAppartaments.Count > 0)
+                            {
+                                search++;
+                                Console.WriteLine("({4}/{5}/{6}/{7}/{8}/{9}) {0} {1}, д.{2}, кв.{3}", 
+                                    item.c_short_type, 
+                                    item.c_name, 
+                                    string.IsNullOrEmpty(item.c_build_num) ? item.c_house_num : string.Format("{0}/{1}", item.c_house_num, item.c_build_num), 
+                                    item.c_appartament,
+                                    innerStreets.Count,
+                                    innerHouses.Count,
+                                    innerAppartaments.Count,
+                                    (((decimal)idx * 100) / count).ToString("0.00") + "%",
+                                    idx,
+                                    search);
+                            }
                         }
                     }
+
+                    idx++;
                 }
             }
         }
@@ -105,33 +129,30 @@ namespace Signature
             return items.ToArray();
         }
 
-        /*static string[] GetAppartamentVar(string house, string appartament)
+        /// <summary>
+        /// поиск возможных вариаций квартиры
+        /// </summary>
+        /// <param name="house"></param>
+        /// <param name="appartament"></param>
+        /// <returns></returns>
+        static string[] GetAppartamentVar(string house, string appartament)
         {
             List<string> items = new List<string>();
 
-            if (string.IsNullOrEmpty(house))
+            if (!string.IsNullOrEmpty(house) && !string.IsNullOrEmpty(appartament))
             {
-                items.Add(string.Format("{0}", GetHouseNumberNormal(number)).ToLower());
+                items.Add(string.Format("{0}", GetAppartamentNormal(appartament)).ToLower());
             }
 
-            if (!string.IsNullOrEmpty(number) && !string.IsNullOrEmpty(build))
+            // этот вариант для частного сектора
+            if (string.IsNullOrEmpty(house) && !string.IsNullOrEmpty(appartament))
             {
-                if (GetHouseBuildNormal(build).Length == 0 && !char.IsDigit(GetHouseBuildNormal(build), 0))
-                {
-                    items.Add(string.Format("{0}{1}", GetHouseNumberNormal(number), GetHouseBuildNormal(build)));
-                }
-
-                items.Add(string.Format("{0}/{1}", GetHouseNumberNormal(number), GetHouseBuildNormal(build)));
-                items.Add(string.Format("{0} корп.{1}", GetHouseNumberNormal(number), GetHouseBuildNormal(build)));
-            }
-            if (string.IsNullOrEmpty(number) && string.IsNullOrEmpty(build) && !string.IsNullOrEmpty(appartament))
-            {
-                items.Add(string.Format("{0}", appartament.Trim()).ToLower());
-                items.Add(string.Format("{0}", GetHouseNumberNormal(number)).ToLower());
+                items.Add(string.Format("{0}", "0"));
+                items.Add(string.Format("{0}", "1"));
             }
 
             return items.ToArray();
-        }*/
+        }
 
         static string GetHouseNumberNormal(string number)
         {
