@@ -23,5 +23,6 @@ namespace Signature.Models
         public bool b_check { get; set; }
         public string c_tag { get; set; }
         public int? f_jkh_house { get; set; }
+        public int? f_signature { get; set; }
     }
 }

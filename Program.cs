@@ -12,13 +12,15 @@ namespace Signature
         {
             using(ApplicationContext db = new ApplicationContext())
             {
+                Console.Write("Обработка...");
+
                 var signatures = db.Signatures.ToList();
 
-                var appartaments = from a in db.Appartaments
+                var appartaments = (from a in db.Appartaments
                                    join h in db.Houses on a.f_house equals h.id
                                    join s in db.Streets on h.f_street equals s.id
-                                   where a.f_premise == null
-                                   orderby a.id
+                                   where a.f_premise == null && a.f_signature == null
+                                    orderby a.id
                                    select new
                                    {
                                        c_appartament = a.c_number,
@@ -28,9 +30,10 @@ namespace Signature
                                        s.c_name,
                                        s.c_short_type,
                                        s.c_type
-                                   };
+                                   }).ToList();
 
-                Console.WriteLine("Доступно {0} квартир которые нужно проверить", appartaments.Count());
+                Console.WriteLine("\r\nДоступно {0} квартир которые нужно проверить", appartaments.Count());
+
                 int idx = 0;
                 int search = 0;
                 int count = appartaments.Count();
@@ -59,8 +62,21 @@ namespace Signature
 
                             var innerAppartaments = innerHouses.Where(t => GetAppartamentVar(t.c_house, t.c_appartament).Intersect(appartamentVar).Count() > 0).ToList();
                             // тут если кол-во больше 0 квартира найден.
-                            if (innerAppartaments.Count > 0)
+                            if (innerAppartaments.Count == 1)
                             {
+                                int signatureID = innerAppartaments.First().id;
+                                var sign = db.Signatures.First(t => t.id == signatureID);
+                                sign.f_appartament = item.f_appartament;
+                                sign.b_search_appartament = true;
+
+                                db.Signatures.Update(sign);
+
+                                var premise = db.Appartaments.First(t => t.id == item.f_appartament);
+                                premise.f_signature = signatureID;
+                                premise.c_tag = "signature";
+
+                                db.Appartaments.Update(premise);
+
                                 search++;
                                 Console.WriteLine("({4}/{5}/{6}/{7}/{8}/{9}) {0} {1}, д.{2}, кв.{3}", 
                                     item.c_short_type, 

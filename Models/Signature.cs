@@ -30,5 +30,6 @@ namespace Signature.Models
         public string c_street_local { get; set; }
         public string c_street_type { get; set; }
         public string c_street_short_type { get; set; }
+        public bool? b_search_appartament { get; set; }
     }
 }
