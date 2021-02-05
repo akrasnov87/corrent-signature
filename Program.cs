@@ -19,7 +19,7 @@ namespace Signature
                 var appartaments = (from a in db.Appartaments
                                    join h in db.Houses on a.f_house equals h.id
                                    join s in db.Streets on h.f_street equals s.id
-                                   where a.f_premise == null && a.f_signature == null
+                                   where a.f_signature == null
                                     orderby a.id
                                    select new
                                    {
@@ -105,10 +105,12 @@ namespace Signature
                             name != null)
             {
                 // возможные варианты улицы
-                string[] streetName = new string[3] {
+                string[] streetName = new string[5] {
+                        string.Format("{0}", name).ToLower(),
                         string.Format("{0} {1}", type, name).ToLower(),
                         string.Format("{0} {1}", shortType, name).ToLower(),
-                        string.Format("{0} {1}", shortType.Replace(".", ""), name).ToLower()
+                        string.Format("{0} {1}", shortType.Replace(".", ""), name).ToLower(),
+                        string.Format("{0}", name.Replace("ул. ", "").Replace("п. ", "")).ToLower()
                     };
                 return streetName;
             } else
