@@ -14,6 +14,8 @@ namespace Signature
         public DbSet<Signature.Models.House> Houses { get; set; }
         public DbSet<Signature.Models.Appartament> Appartaments { get; set; }
 
+        public DbSet<Signature.Models.HouseByJkh> HouseByJkhs { get; set; }
+
         public ApplicationContext()
         {
             Database.EnsureCreated();

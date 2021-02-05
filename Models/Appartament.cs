@@ -24,5 +24,7 @@ namespace Signature.Models
         public string c_tag { get; set; }
         public int? f_jkh_house { get; set; }
         public int? f_signature { get; set; }
+
+        public bool? b_range { get; set; }
     }
 }

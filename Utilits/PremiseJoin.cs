@@ -22,7 +22,7 @@ namespace Signature.Utilits
                                     join h in db.Houses on a.f_house equals h.id
                                     join s in db.Streets on h.f_street equals s.id
                                     where a.f_signature == null
-                                    orderby a.id
+                                    orderby s.c_name, h.c_house_num, h.c_build_num, a.c_number
                                     select new
                                     {
                                         c_appartament = a.c_number,
@@ -78,6 +78,8 @@ namespace Signature.Utilits
                                 premise.c_tag = "signature";
 
                                 db.Appartaments.Update(premise);
+
+                                db.SaveChanges();
 
                                 search++;
                                 Console.WriteLine("({4}/{5}/{6}/{7}/{8}/{9}) {0} {1}, д.{2}, кв.{3}",
