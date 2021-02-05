@@ -21,7 +21,7 @@ namespace Signature.Utilits
                 var appartaments = (from a in db.Appartaments
                                     join h in db.Houses on a.f_house equals h.id
                                     join s in db.Streets on h.f_street equals s.id
-                                    where a.f_signature == null
+                                    where a.f_signature == null && a.b_range != true
                                     orderby s.c_name, h.c_house_num, h.c_build_num, a.c_number
                                     select new
                                     {
