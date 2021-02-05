@@ -34,6 +34,8 @@ namespace Signature.Utilits
 
                 int count = appartaments.Count();
 
+                int limit = 0;
+
                 foreach (var item in appartaments)
                 {
                     var record = db.Appartaments.First(t => t.id == item.f_appartament);
@@ -58,10 +60,21 @@ namespace Signature.Utilits
                     }
 
                     db.Appartaments.Update(record);
-                    db.SaveChanges();
+                    limit++;
+
+                    if (limit >= 500)
+                    {
+                        limit = 0;
+                        db.SaveChanges();
+                    }
                     idx++;
 
                     Console.Write("\r{0}/{1}/{2}/{3}", rangeOff, bad, idx, count);
+                }
+
+                if(limit > 0)
+                {
+                    db.SaveChanges();
                 }
             }
         }

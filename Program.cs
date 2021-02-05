@@ -10,7 +10,7 @@ namespace Signature
     {
         static void Main(string[] args)
         {
-            Signature.Utilits.RangePremise.Run();
+            Signature.Utilits.PremiseJoin.Run();
         }
     }
 }

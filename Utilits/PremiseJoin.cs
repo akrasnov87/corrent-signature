@@ -39,6 +39,9 @@ namespace Signature.Utilits
                 int idx = 0;
                 int search = 0;
                 int count = appartaments.Count();
+
+                int limit = 0;
+
                 // дальше по каждей квартире нужно искать
                 // первое - проверим есть ли улица
                 foreach (var item in appartaments)
@@ -64,8 +67,10 @@ namespace Signature.Utilits
 
                             var innerAppartaments = innerHouses.Where(t => GetAppartamentVar(t.c_house, t.c_appartament).Intersect(appartamentVar).Count() > 0).ToList();
                             // тут если кол-во больше 0 квартира найден.
-                            if (innerAppartaments.Count == 1)
+                            if (innerAppartaments.Count > 0)
                             {
+                                limit++;
+
                                 int signatureID = innerAppartaments.First().id;
                                 var sign = db.Signatures.First(t => t.id == signatureID);
                                 sign.f_appartament = item.f_appartament;
@@ -79,19 +84,29 @@ namespace Signature.Utilits
 
                                 db.Appartaments.Update(premise);
 
-                                db.SaveChanges();
+                                if(limit >= 500)
+                                {
+                                    limit = 0;
+                                    db.SaveChanges();
+                                }
+                                
 
                                 search++;
                             }
                         }
                     }
 
-                    Console.WriteLine("({0}/{1}/{2})",
+                    Console.Write("\r{0}/{1}/{2}",
                         search,
                         idx,
                         count);
 
                     idx++;
+                }
+
+                if(limit > 0)
+                {
+                    db.SaveChanges();
                 }
             }
         }
